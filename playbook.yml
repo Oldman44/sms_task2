@@ -1,0 +1,22 @@
+---
+- name: setup  https://github.com/anfederico/Flaskex
+  hosts: servers
+  become_method: sudo
+  become_user: root
+  
+  tasks:
+    - name: clone Flaskex repo
+      git:
+       repo: https://github.com/anfederico/flaskex.git
+       dest: ~/Flaskex
+       clone: yes
+       update: yes
+
+    - name: install requirements
+      pip:
+       requirements: ~/Flaskex/requirements.txt
+      
+    - name: run app
+      shell: python ~/Flaskex/app.py
+      args:
+       chdir: /root/Flaskex/ 
